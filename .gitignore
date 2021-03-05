@@ -1,0 +1,5 @@
+/.vscode
+/public
+.DS_Store
+*~
+*.py[cod]
