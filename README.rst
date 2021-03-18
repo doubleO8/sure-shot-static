@@ -1,6 +1,8 @@
-python -m virtualenv -p python3 venv
-. venv/bin/activate
-pip install sure-shot-static
+::
+
+  python -m virtualenv -p python3 venv
+  . venv/bin/activate
+  pip install sure-shot-static
 
 mkdir -p public/
 # copy files and folders to public/ ...
