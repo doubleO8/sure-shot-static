@@ -149,6 +149,9 @@ def shake_your_rump():
 
         if rel_path in seen:
             continue
+        
+        if rel_path.endswith("~"):
+            continue
 
         if ext in mime_override:
             mime_type = mime_override[ext]
