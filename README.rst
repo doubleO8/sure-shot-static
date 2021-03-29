@@ -54,3 +54,19 @@ Publishing to pypi
 ::
 
   poetry publish -r pypi --build
+
+
+Troubleshooting (mediocre platforms)
+====================================
+
+::
+
+  ImportError: DLL load failed while importing _brotli: The specified module could not be found.
+
+Fetch https://support.microsoft.com/en-us/topic/the-latest-supported-visual-c-downloads-2647da03-1eea-4433-9aff-95f26a218cc0
+
+::
+
+  ImportError: failed to find libmagic.  Check your installation
+
+  pip install python-magic-bin
