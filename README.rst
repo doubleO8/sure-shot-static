@@ -1,3 +1,6 @@
+Example Run
+===========
+
 ::
 
   python -m virtualenv -p python3 venv
@@ -43,3 +46,11 @@
   2021-03-18 18:06:33 INFO      + fonts/fontawesome-webfont.woff2                              font/woff
   2021-03-18 18:06:33 INFO        No update needed ...
   2021-03-18 18:06:33 INFO     
+
+
+Publishing to pypi
+==================
+
+::
+
+  poetry publish -r pypi --build

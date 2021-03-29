@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sure-shot-static"
-version = "1.0.1"
+version = "1.2.0"
 description = ""
 authors = ["doubleO8 <wb008@hdm-stuttgart.de>"]
 
@@ -12,6 +12,7 @@ Brotli = "^1.0.9"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
+black = "^20.8b1"
 
 [tool.poetry.scripts]
 sure-shot-static = 'sure_shot_static.shake_your_rump:shake_your_rump'

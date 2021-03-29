@@ -20,6 +20,8 @@ import botocore
 
 logging.getLogger("botocore").setLevel(logging.WARNING)
 
+#: default bucket name, use ``STATIC_ASSETS_BUCKET`` environment variable to
+#: override!
 DEFAULT_BUCKET = os.environ.get("STATIC_ASSETS_BUCKET", "time-to-get-ill")
 
 
@@ -27,13 +29,25 @@ def md5_sum(local_fn):
     """
     Return MD5 sum of file *local_fn*.
     """
-    handle = open(local_fn, "rb")
-    md5sum = hashlib.md5(handle.read()).hexdigest()
-    handle.close()
+    with open(local_fn, "rb") as handle:
+        md5sum = hashlib.md5(handle.read()).hexdigest()
+
     return md5sum
 
 
 class TentativeUploader:
+    """
+    Asset's uploading Controller.
+
+
+    Attributes:
+        log (logging.Logger): logger instance
+        cache_time (int): Cache time in seconds. Defaults to 333 days
+        bucket (str): Bucket name. Defaults to :py:data:`DEFAULT_BUCKET`
+        base_url (str): Bucket's base URL
+        base_arn (str): Bucket's base ARN
+    """
+
     def __init__(self, *args, **kwargs):
         self.log = logging.getLogger(__name__)
         self.cache_time = kwargs.get("cache_time", 3600 * 24 * 333)
@@ -51,6 +65,22 @@ class TentativeUploader:
         return "arn:aws:s3:::{bucket}".format(bucket=self.bucket)
 
     def push(self, rel_path, abs_path, mime_type, **kwargs):
+        """
+        Upload a *public* asset to the bucket.
+
+        Args:
+            rel_path (str): relative path (target)
+            abs_path (str): absolute path (local source)
+            mime_type (str): MIME type
+
+        Keyword Args:
+            cache_time (int, optional): Cache time in seconds. Defaults to :py:data:`TentativeUploader.cache_time`
+            immutable (bool, optional): Add ``immutable`` flag to cache control headers? Defaults to ``True``
+            content_encoding (str, optional): Content encoding header value
+
+        Returns:
+            bool: ``True`` if operation succeeded
+        """
         need_push = True
         head_response = None
         cache_time = kwargs.get("cache_time", self.cache_time)

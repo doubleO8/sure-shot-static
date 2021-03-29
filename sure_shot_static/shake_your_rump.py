@@ -4,7 +4,10 @@ import os
 import logging
 import re
 
-import magic
+try:
+    import magic
+except ImportError:
+    pass
 import brotli
 
 from sure_shot_static.intergalactic import TentativeUploader
@@ -16,7 +19,7 @@ REGEX_PORTIONS = re.compile(PATTERN_PORTIONS)
 root_abs = os.path.abspath("public")
 
 
-log = logging.getLogger("s3ync")
+log = logging.getLogger("syr")
 
 
 def simple_brotli(source, target=None):
@@ -149,14 +152,18 @@ def shake_your_rump():
 
         if rel_path in seen:
             continue
-        
+
         if rel_path.endswith("~"):
             continue
 
         if ext in mime_override:
             mime_type = mime_override[ext]
         else:
-            mime_type = magic.from_file(abs_path, mime=True)
+            try:
+                mime_type = magic.from_file(abs_path, mime=True)
+            except NameError:
+                log.warning("The magic library appears to be missing?")
+                mime_type = "application/octet-stream"
 
         description = mime_type
         if gdict.get("compressed_ext"):
