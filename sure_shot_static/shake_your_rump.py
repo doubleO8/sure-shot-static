@@ -84,6 +84,7 @@ mime_override = dict(
     woff="font/woff",
     woff2="font/woff",
     ttf="font/ttf",
+    svg="image/svg+xml",
 )
 
 # encoding type override for compressed files
@@ -93,6 +94,7 @@ content_type = dict(br="br")
 compressable = (
     "css",
     "js",
+    "svg",
 )
 
 # required environment keys
